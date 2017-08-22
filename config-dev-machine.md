@@ -96,14 +96,15 @@ sudo systemctl stop docker.service && sleep 3 && sudo systemctl start docker.ser
 5. Configure Docker Hub Login
 
 ```
-# Login to docker (follow the prompts)
+
+#Login to docker (follow the prompts)
 sudo docker login
 
-# as you build you will generate docker images, and automatically pushed to your repo
+#as you build you will generate docker images, and automatically pushed to your repo
+
 ```
 
 6. Configure Docker to work without sudo 
-```
 
 ```
 sudo usermod -a -G docker ${USER}
