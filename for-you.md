@@ -60,7 +60,7 @@ Probably the most icky part of contribution is navigating and using the ./hack/ 
 
 # Can I develop without Azure clusters? 
 
-Why do you want to do that? -- in Theory (I didn't try that e2e) yes you can mock the ambient information needed for Azure provider to run correctly (mainly metadata endpoint, disable MSI). You can use dev-build-up to run a small env on your dev box. Don't do that. 
+Why do you want to do that? -- in Theory (I didn't try that e2e) yes you can mock the ambient information needed for Azure provider to run correctly (mainly metadata endpoint, disable MSI). You can use ./hack/dev-build-up.sh to run a small env on your dev box. Don't do that. 
 
 # What if i want to run old code and new code on the same cluster?
 
@@ -72,4 +72,9 @@ for whatever reason you needed that - welcome to the dark side -. You can use Ag
 
 if you are doing one component at a time then fork, branch, merge to your master then PR from your master is best approach. However if you are doing many components at a time you may want to consider having many source trees and bind mount them at go/src/k8s 
 
+# Any advise on dev tool chain? 
 
+That is quite a personal question, whatever work for you is the right one. But just in case you are looking for ideas. Here is my dev-boxs common configuration:
+1. tmux 
+2. vim + vim-go (https://github.com/fatih/vim-go) + ctags
+3. Other things i have on vim are nerdtree, syntastic, tagbar, YouCompleteMe, lightline, and ctrlp
