@@ -1,4 +1,4 @@
-This is a set of instruction to help you up and running contributing to upstream by setting up 
+This is a set of instructions to help you up and running contributing to upstream by setting up 
 development env and test clusters on Azure. 
 
 Steps
