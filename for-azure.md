@@ -62,6 +62,8 @@ az group deployment create --name one --resource-group funkycluster --template-f
 
 It is always a good idea to use kubectl that matches your image. Run the following to sync versions
 
+> This was needed on older ACS engine clusters. Currently a systemd unit at /etc/systemd/system/kubelet-extract.service, performs pretty much the below
+
 ```
 ssh -i ./funkycluster/cluster azureuser@funkyk8scluster.centralus.cloudapp.azure.com
 
@@ -125,9 +127,35 @@ allnodes()
   parallel-ssh --inline  --hosts /tmp/nodes --user $(whoami) -x '-i ~/clusterkey -o StrictHostKeyChecking=no'
 }
 EOF
+```
 
+4. Swap hyperkube images on nodes
+
+```
+#on master: 
 # Now every time you need to change image on the cluster
 allnodes "sudo sed -i 's/KUBELET_IMAGE=.*\KUBELET_IMAGE=<<YOUR DOCKER HUB USER>>/hyperkube-amd64:<<YOUR TAG>>/g' /etc/default/kubelet" # this replaces kubelet image on all nodes
 allnodes "sudo systemctl stop kubelet.service && sleep 3 && sudo systemtl start kubelet.service" # restart kubelet, again systemctl restart does not seem to be reliable.
+```
+
+5. Swap hyperkube image on master
+
+```
+# At minimum you will need to swap for api-server and controller manager
+# on master
+
+# Kubelet keeps a file watch on this file and will automatically reset api-server container to the new image 
+sudo sed -i 's/<<DOCKER HUB USER>>\/hyperkube-amd64:<<CURRENT TAG>>/<<DOCKER HUB USER>>\/hyperkube-amd64:<<TAG>>/g' /etc/kubernetes/manifests/kube-apiserver.yaml
+
+# Also kubelet keeps a file watch on this file.
+sudo sed -i 's/<<DOCKER HUB USER>>\/hyperkube-amd64:<<CURRENT TAG>>/<<DOCKER HUB USER>>\/hyperkube-amd64:<<TAG>>/g' /etc/kubernetes/manifests/kube-controller-manager.yaml
+
+# You generally don't need to update kubelet image since on master its mainly used to start other control plan components. but should you do
+
+# Replace image in systemd uni'ts env file 
+sudo sed -i 's/KUBELET_IMAGE=.*/KUBELET_IMAGE=<<DOCKER HUB USER>>\/hyperkube-amd64:<<TAG>>/g' /etc/default/kubelet
+
+# Restart kubelet on master
+sudo systemctl stop kubelet.service && sleep 3 && sudo systemctl start kubelet.service
 ```
 
