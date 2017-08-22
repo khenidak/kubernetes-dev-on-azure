@@ -13,8 +13,11 @@ This is a 2 min crash course
 6. Key components:
   
   a. *api-server* sets on top of *etcd*
+
   b. *controler-manager* runs multiple *control loops* such as for nodes, volumes, RCs..
+
   c. *Kubelet* runs on nodes performs 1) runs containers via integrating with container runtime (yes, Kubernetes can do docker, RKT or soon CRI). 2) Collects node metadata (including health as heartbeats) and send it to *api-server*. Metadata is collected mainly via component called *CAdvisor* which abstracts the details of cloud specific to Kubernetes.
+
   d. *Proxy* runs -again as a control loop - on nodes to configure *iptables* to enable scenarios such ip-per-pod and Kubernetes services
 
 7. Plugins, providers and all external-like components are called from various *control plane* components. Yes most of them run on master and nodes (not just master).
