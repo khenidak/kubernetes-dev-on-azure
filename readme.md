@@ -4,4 +4,4 @@ development env and test clusters on Azure.
 Steps
 1. [Configure Dev Machine](./config-dev-machine.md)
 2. [For Azure](./for-azure.md)
-3. [Tips, FAQ and others] (for-you.md)
+3. [Tips, FAQ and other random thoughts](for-you.md)
