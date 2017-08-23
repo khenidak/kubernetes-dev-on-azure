@@ -55,7 +55,7 @@ sudo docker ps | grep "/hyperkube kubelet" | awk '{print $1}' | xargs sudo docke
 Probably the most icky part of contribution is navigating and using the ./hack/ scripts. But there is a method to the madness. Instead of describing them, let talk- through some - why they are needed:
 
 1. *api-server* exposes REST with JSON,Protobuff and YAML endpoint (yes it performs protocol negotiation for every request). Node->api-master uses protobuff only. For that reason everytime types are updated you will need to run update-generated-protobuf* family of scripts. 
-2. Kubernetes does not use the default golang JSON libs, instead it uses a custom library that generates objects graph as code (instead of generating at runtime and maintain LRU cache). For that reason everytime types are updated you will need to run update-codegen* family of scripts. 
+2. Kubernetes does not use the default golang JSON libs, instead it uses a custom library that generates objects graph as code (instead of generating at runtime and maintain LRU cache). For that reason everytime types are updated you will need to run update-codecgen* family of scripts. 
 3. All the api/ref/swagger docs are generated via updated-*-docs. 
 4. Bazel build files (this BUILD files in each directory) has thier own update-bazel script, You will need to verify that your test packages are in Bazel files. 
 5. gofmt, golint, goevt have thier own scripts. 
@@ -69,7 +69,7 @@ Why do you want to do that? -- in Theory (I didn't try that e2e) yes you can moc
 
 # What if i want to run old code and new code on the same cluster?
 
-for whatever reason you needed that - welcome to the dark side -. You can use Agent pools for this. Create a cluster with multiple agent pools, each agent pool can run using a different version of kubelet. *They will all use one version of control plane components*. This will allow you to compare old and new on the same cluster (Just in casse, This is not a production scenario, don't do that on production)
+for whatever reason you needed that - welcome to the dark side -. You can use Agent pools for this. Create a cluster with multiple agent pools, each agent pool can run using a different version of kubelet. *They will all use one version of control plane components*. This will allow you to compare old and new on the same cluster (Just in case, This is not a production scenario, don't do that on production)
 
 > This assumes that your types didn't change.
 
