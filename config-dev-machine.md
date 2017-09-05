@@ -132,29 +132,36 @@ source ~/.bashrc
 
 # Prepare for Kubernetes 
 
-1. Fork Kubernetes Repo
+1. Fork the Kubernetes repo in GitHub.
 
-2. Clone Kubernetes Repo
+2. Clone your fork of the Kubernetes repo
 
 ```
 cd ~
 mkdir -p go/src/k8s.io/
 
-# clone it 
+# clone your fork as origin
 cd ~/go/src/k8s.io
-git clone https://github.com/kubernetes/kubernetes.git
-
-# add your fork as a remote 
-git remote add fork <<your fork here>>
-
+git clone https://github.com/<your_github_username>/kubernetes.git
 ```
 
-3. Create a test Build
+3. Set upstream to the main Kubernetes repo.
+
+```
+# add upstream repo 
+git remote add upstream https://github.com/kubernetes/kubernetes.git
+```
+
+> NOTE
+> You don't have to use origin/upstream as described here, but it's a common naming
+> convention for GitHub workflows.
+
+4. Create a test build.
 
 ```
 cd ~/go/src/k8s.io/kubernetes
 export REGISTRY=<<YOUR DOCKER USERNAME>>
-export VERSION=<<your dev image name>> # this will be <<register>>:hyperkube-amd64:<<VERSION>>
+export VERSION=<<your dev image name>>  # will become version part of image tag
 ./hack/dev-push-hyperkube.sh
 # the output is a hyperkube image on docker hub with <<REGISTRY>>:hyperkube-amd64:<<VERSION>>
 # takes a good 2+ mins to complete.
