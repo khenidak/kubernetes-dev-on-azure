@@ -36,7 +36,7 @@ Start with the following: it is a DSC, repeat, it's a DSC. Meaning nothing you c
 
 1. All the *control loops* run in a sandbox-like environment (simple example using go panic/recover https://blog.golang.org/defer-panic-and-recover). Runtime panics are trapped and stack-trace logged to stdout/stderr.
 2. On Debian systems, systemd is used to start *control plane* as containers using various units. Use ``` sudo systemctl status <<UNIT>> ``` and ``` sudo journalctl ``` to get more information if your containers refused to start.
-3. Kubernetes uses glog library for logging. Make sure that you use correct the correct V ``` glog.V(<<LEVEL>>).XXXX ``` And make sure that you start your containers with the correct V parameters.  **acs-engine defaults to use --v=2** - change this to a higher value.
+3. Kubernetes uses glog library for logging. Make sure that you use correct the correct V ``` glog.V(<<LEVEL>>).XXXX ``` And make sure that you start your containers with the correct V parameters.  **acs-engine defaults to use --v=2** - change this to a higher value.  ([More information about changing log levels.](kube-log-levels.md))
 4. Use labels and selectors to place your pods on nodes you are already watching the logs for.
 5. Use docker logs to see what is happening 
 
