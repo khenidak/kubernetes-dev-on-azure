@@ -32,7 +32,7 @@ cp ~/go/src/github.com/Azure/acs-engine/examples/disks-managed/kubernetes-vmas.j
 ./go/src/github.com/Azure/acs-engine/bin/acs-engine generate --api-model ./funkycluster/in.json --output-directory ./funkycluster/out
 
 # Modify the template to use your hyperkube image
-sed -i "s/gcrio\.azureedge\.net\/google_containers\/hyperkube-amd64:v1\.6\.6/<<REGISTRY>>\/hyperkube-amd64:<<VERSION>>/g" ./funkycluster/out/azuredeploy.parametersjson
+sed -i "s/gcrio\.azureedge\.net\/google_containers\/hyperkube-amd64:v1\.6\.6/<<REGISTRY>>\/hyperkube-amd64:<<VERSION>>/g" ./funkycluster/out/azuredeploy.parameters.json
 
 
 ```
