@@ -123,7 +123,7 @@ sudo chmod g+rwx "/home/$USER/.docker" -R
 $(cd /tmp && wget https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz)
 sudo tar -C /usr/local -xzf /tmp/go1.8.3.linux-amd64.tar.gz
 echo "export PATH=$PATH:/usr/local/go/bin" | sudo tee --append /etc/profile
-echo "export PATH=$PATH:/usr/local/go/bin" | tee --append ~/.bashrc
+echo "export PATH=$PATH:~/go/bin" | tee --append ~/.bashrc
 source /etc/profile
 source ~/.bashrc
 ```
