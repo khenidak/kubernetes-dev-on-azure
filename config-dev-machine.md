@@ -93,6 +93,7 @@ EOF
 
 # Restart the service (allow docker sometime before starting again, do not trust systemd to do it)
 sudo systemctl daemon-reload
+
 sudo systemctl stop docker.service && sleep 3 && sudo systemctl start docker.service 
 ```
 
@@ -140,6 +141,7 @@ cd ~
 mkdir -p go/src/k8s.io/
 
 # clone it 
+cd ~/go/src/k8s.io
 git clone https://github.com/kubernetes/kubernetes.git
 
 # add your fork as a remote 
