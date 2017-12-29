@@ -42,8 +42,7 @@ lsblk
 
 # Create mount point (Don't use /mnt since it's the temporary storage on Azure VM)
 sudo mkdir -p /mount/d
-sudo chown $(whoami):$(whoami) /mount/d
-sudo chmod +rw /mount/d
+
 ou
 # Configure auto mount (modify /dev/sdc if your disk is not attached there)
 cat << EOF | sudo tee /etc/systemd/system/mount-d.mount
@@ -65,6 +64,9 @@ sudo systemctl enable mount-d.mount
 # manually start the mount point
 sudo systemctl start mount-d.mount
 
+# After mounting the disk, we need to change the owner:group of the directory:
+sudo chown $(whoami):$(whoami) /mount/d
+sudo chmod +rw /mount/d
 ```
 
 3. Install Docker & Build Essentials 
