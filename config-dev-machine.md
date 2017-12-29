@@ -44,7 +44,7 @@ lsblk
 sudo mkdir -p /mount/d
 sudo chown $(whoami):$(whoami) /mount/d
 sudo chmod +rw /mount/d
-
+ou
 # Configure auto mount (modify /dev/sdc if your disk is not attached there)
 cat << EOF | sudo tee /etc/systemd/system/mount-d.mount
 [Unit]
@@ -80,7 +80,7 @@ sudo apt-get install -y build-essential
 4. Configure Docker to use the data disk
 
 ```
-mkdir /mnt/d/docker-pwd
+mkdir /mount/d/docker-pwd
 sudo mkdir /etc/systemd/system/docker.service.d 
 
 cat << EOF | sudo tee /etc/systemd/system/docker.service.d/graph.conf
