@@ -1,3 +1,4 @@
+
 # Create Dev Machine
 
 1. Resource Group
@@ -39,19 +40,18 @@ lsblk
 # Format it
  sudo mkfs.ext4 /dev/sdc
 
-# Create mount point
-sudo mkdir /mnt/d
-sudo chown $(whoami):$(whoami) /mnt/d
-sudo chmod +rw /mnt/d
+# Create mount point (Don't use /mnt since it's the temporary storage on Azure VM)
+sudo mkdir -p /mount/d
 
+ou
 # Configure auto mount (modify /dev/sdc if your disk is not attached there)
-cat << EOF | sudo tee /etc/systemd/system/mnt-d.mount
+cat << EOF | sudo tee /etc/systemd/system/mount-d.mount
 [Unit]
 Description=Mount Data Disk
 
 [Mount]
 What=/dev/sdc
-Where=/mnt/d
+Where=/mount/d
 Type=ext4
 
 [Install]
@@ -59,11 +59,14 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl daemon-reload
-sudo systemctl enable mnt-d.mount
+sudo systemctl enable mount-d.mount
 
 # manually start the mount point
-sudo systemctl start mnt-d.mount
+sudo systemctl start mount-d.mount
 
+# After mounting the disk, we need to change the owner:group of the directory:
+sudo chown $(whoami):$(whoami) /mount/d
+sudo chmod +rw /mount/d
 ```
 
 3. Install Docker & Build Essentials 
@@ -79,22 +82,22 @@ sudo apt-get install -y build-essential
 4. Configure Docker to use the data disk
 
 ```
-mkdir /mnt/d/docker-pwd
+mkdir /mount/d/docker-pwd
 sudo mkdir /etc/systemd/system/docker.service.d 
 
 cat << EOF | sudo tee /etc/systemd/system/docker.service.d/graph.conf
 [Service]
 ExecStart=
-ExecStart=/usr/bin/docker daemon -H fd:// --graph="/mnt/d/docker-pwd"
+ExecStart=/usr/bin/docker daemon -H fd:// --graph="/mount/d/docker-pwd"
 EOF
 
 # Restart the service (allow docker sometime before starting again, do not trust systemd to do it)
 sudo systemctl daemon-reload
+
 sudo systemctl stop docker.service && sleep 3 && sudo systemctl start docker.service 
 ```
 
 5. Configure Docker Hub Login
-
 ```
 
 #Login to docker (follow the prompts)
@@ -138,6 +141,7 @@ cd ~
 mkdir -p go/src/k8s.io/
 
 # clone it 
+cd ~/go/src/k8s.io
 git clone https://github.com/kubernetes/kubernetes.git
 
 # add your fork as a remote 
