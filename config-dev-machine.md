@@ -2,9 +2,23 @@
 # Create Dev Machine
 
 1. Resource Group
-
 ```
   az group create --name funkydev --location centralus
+```
+
+#### Notes on subscriptions
+
+If you have more than one subscription, then please use the following command to figure out if its default subscription:
+```
+  az account show
+```
+To get a list of subscriptions use:
+```
+  az account list
+```
+and finally, to set the right subscription as default:
+```
+  az account set -s <subscription id>
 ```
 
 2. Developer Machine
@@ -18,7 +32,7 @@
 az vm create --name funkydev00 --resource-group funkydev --public-ip-address-dns-name funkydev00 --image ubuntults --data-disk-sizes 1024 --size Standard_DS4_v2 --ssh-key-value ./funky.pub
 ```
 
-## notes on developer machine
+#### Notes on developer machine
 
 1. We are using a fairly large machine because building Kubernetes is a CPU intensive process.
 2. We added another data disk because docker builds/drops will eat the OS disk quickly. 
