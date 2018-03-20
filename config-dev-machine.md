@@ -137,8 +137,8 @@ sudo chmod g+rwx "/home/$USER/.docker" -R
 ```
 $(cd /tmp && wget https://storage.googleapis.com/golang/go1.10.linux-amd64.tar.gz)
 sudo tar -C /usr/local -xzf /tmp/go1.10.linux-amd64.tar.gz
-echo "export PATH=$PATH:/usr/local/go/bin" | sudo tee --append /etc/profile
-echo "export PATH=$PATH:~/go/bin" | tee --append ~/.bashrc
+echo "export PATH=\$PATH:/usr/local/go/bin" | sudo tee --append /etc/profile
+echo "export PATH=\$PATH:~/go/bin" | tee --append ~/.bashrc
 source /etc/profile
 source ~/.bashrc
 ```
@@ -162,6 +162,7 @@ git clone https://github.com/<your_github_username>/kubernetes.git
 3. Set upstream to the main Kubernetes repo.
 
 ```
+cd kubernetes
 # add upstream repo 
 git remote add upstream https://github.com/kubernetes/kubernetes.git
 ```
