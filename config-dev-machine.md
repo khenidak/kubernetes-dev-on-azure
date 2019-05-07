@@ -88,8 +88,11 @@ sudo chmod +rw /mount/d
 ```
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install -y docker.io 
+```
 
+Install docker using the steps from https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
+```
 sudo apt-get install -y build-essential 
 ```
 
@@ -99,16 +102,16 @@ sudo apt-get install -y build-essential
 mkdir /mount/d/docker-pwd
 sudo mkdir /etc/systemd/system/docker.service.d 
 
-cat << EOF | sudo tee /etc/systemd/system/docker.service.d/graph.conf
+cat << EOF | sudo tee /etc/systemd/system/docker.service.d/override.conf
 [Service]
 ExecStart=
-ExecStart=/usr/bin/docker daemon -H fd:// --graph="/mount/d/docker-pwd"
+ExecStart=/usr/bin/dockerd -H fd:// --data-root="/mount/d/docker-pwd"
 EOF
 
 # Restart the service (allow docker sometime before starting again, do not trust systemd to do it)
 sudo systemctl daemon-reload
 
-sudo systemctl stop docker.service && sleep 3 && sudo systemctl start docker.service 
+sudo systemctl restart docker.service
 ```
 
 5. Configure Docker Hub Login
