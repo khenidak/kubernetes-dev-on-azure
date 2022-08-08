@@ -57,14 +57,16 @@ lsblk
 # Create mount point (Don't use /mnt since it's the temporary storage on Azure VM)
 sudo mkdir -p /mount/d
 
+# Find the UUID of the storage device, since /dev/sdc may change drive letters on reboot
+sudo blkid | grep UUID=
 
-# Configure auto mount (modify /dev/sdc if your disk is not attached there)
+# Configure auto mount (modify the disk device to include the UUID from above)
 cat << EOF | sudo tee /etc/systemd/system/mount-d.mount
 [Unit]
 Description=Mount Data Disk
 
 [Mount]
-What=/dev/sdc
+What=/dev/disk/by-uuid/<UUID>
 Where=/mount/d
 Type=ext4
 
